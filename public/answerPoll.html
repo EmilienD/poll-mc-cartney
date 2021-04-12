@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Poll Mc Cartney</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <script src='main.js' type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"
+    integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA=="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <label>Your name: <input type="text" name="userName" id="userNameInput" /></label>
+  <h2 id="question"></h2>
+  <form style="display: flex; flex-direction: column;" method="POST" id="answerForm">
+    <label>Answer: <input type="text" name="answer" /></label>
+    <button>send</button>
+  </form>
+  <table id="answerTable">
+    <thead>
+      <tr>
+        <td>Answer</td>
+        <td>People</td>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <form id='questionForm'></form>
+
+</body>
+
+</html>
