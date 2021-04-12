@@ -7,29 +7,19 @@
   <title>Poll Mc Cartney</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-  <script src='scripts/answerPoll.js' type="module"></script>
+  <script src='scripts/landing.js' type="module"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"
     integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA=="
     crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <label>Your name: <input type="text" name="userName" id="userNameInput" /></label>
-  <h2 id="question"></h2>
-  <form style="display: flex; flex-direction: column;" method="POST" id="answerForm">
-    <label>Answer: <input type="text" name="answer" /></label>
-    <button>send</button>
-  </form>
-  <table id="answerTable">
-    <thead>
-      <tr>
-        <td>Answer</td>
-        <td>People</td>
-        <td>Count</td>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <label>Your room name:<input placeholder="name" type="text" id="roomName" /></label><button
+    id="suggestionButton">Create a name for
+    me</button>
+  <a id="askLink">Link to ask</a>
+  <a id="answerLink">Link to answer</a>
+
 </body>
 
 </html>

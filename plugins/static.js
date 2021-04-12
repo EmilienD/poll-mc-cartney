@@ -12,4 +12,7 @@ module.exports = fp(async function (fastify, opts) {
   fastify.register(require('fastify-static'), {
     root: join(__dirname, '../public'),
   })
+  fastify.get('/', (req, res) => {
+    res.sendFile('index.html')
+  })
 })

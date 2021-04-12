@@ -1,0 +1,7 @@
+#answerTable td {
+  padding: 1em;
+}
+
+#answerTable td:nth-child(3) {
+  text-align: right;
+}

@@ -3,11 +3,8 @@ const randomWords = require('random-words')
 const pollrooms = {}
 
 module.exports = async function (fastify, opts) {
-  fastify.get('/', async function (request, reply) {
-    return { root: true }
-  })
   fastify.get('/pollrooms', (request, reply) => {
-    reply.json(Object.keys(pollrooms))
+    reply.send(Object.keys(pollrooms))
   })
   fastify.get('/suggestion', (req, res) => {
     while (true) {
