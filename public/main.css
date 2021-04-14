@@ -5,3 +5,26 @@
 #answerTable td:nth-child(3) {
   text-align: right;
 }
+
+.pollLinks {
+  position: relative;
+}
+
+.pollLinks button {
+  border: none;
+  margin: none;
+  padding: 0 1em;
+  background: none;
+}
+
+.pollLinks button + span {
+  white-space: nowrap;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 3s ease-in;
+  pointer-events: none;
+}
+.pollLinks button:active + span {
+  transition: opacity 0.01s ease-in;
+  opacity: 1;
+}

@@ -48,5 +48,12 @@ const init = async () => {
   document
     .getElementById('suggestionButton')
     .addEventListener('click', () => suggestName())
+  Array.from(document.querySelectorAll('.pollLinks button')).forEach((button) =>
+    button.addEventListener('click', (ev) => {
+      navigator.clipboard.writeText(
+        ev.target.parentElement.querySelector('a').href
+      )
+    })
+  )
 }
 init()
