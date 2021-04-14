@@ -1,7 +1,9 @@
 export const createWebsocket = () => {
-  const host = window.location.host
-  const room = window.location.search.replace('?', '')
-  return new WebSocket(`ws://${host}/pollrooms/${room}`)
+  const { host, protocol, search } = window.location
+  const room = search.replace('?', '')
+  return new WebSocket(
+    `${protocol === 'https:' ? 'wss' : 'ws'}://${host}/pollrooms/${room}`
+  )
 }
 export const initUserData = () => {
   let userId = localStorage.getItem('userId')
