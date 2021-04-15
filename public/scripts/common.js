@@ -32,22 +32,49 @@ export const initPollLinksClipboard = () => {
   )
 }
 
+const renderAnswer = (val, highlight) => {
+  const code = document.createElement('code')
+  code.innerText = val
+  if (highlight) {
+    code.classList.add(`language-${highlight}`)
+    Prism.highlightElement(code)
+  }
+  const pre = document.createElement('pre')
+  pre.append(code)
+  return pre
+}
+
 export const onUpdate = (numberOfCols = 1) => (ev) => {
   const parsedMessage = JSON.parse(ev.data)
   if (parsedMessage.type === 'update') {
     const tableData = parsedMessage.answers.reduce((acc, val) => {
-      if (!acc[val.answer]) {
-        acc[val.answer] = []
+      const storedAnswer = acc.get(val.answer)
+      if (!storedAnswer) {
+        acc.set(val.answer, {
+          userNames: [],
+          highlight: val.highlight,
+          answer: val.answer,
+        })
+      } else if (!storedAnswer.highlight) {
+        storedAnswer.highlight = val.highlight
       }
-      acc[val.answer].push(val.userName)
+      acc.get(val.answer).userNames.push(val.userName)
       return acc
-    }, {})
-    const rows = Object.keys(tableData).map((key) => {
+    }, new Map())
+    const rows = Array.from(tableData.values()).map((item) => {
       const tr = document.createElement('tr')
-      const data = [key, tableData[key].join(', '), tableData[key].length]
-      const tds = data.slice(0, numberOfCols).map((val) => {
+      const data = [
+        [item.answer, item.highlight],
+        item.userNames.join(', '),
+        item.userNames.length,
+      ]
+      const tds = data.slice(0, numberOfCols).map((val, i) => {
         const td = document.createElement('td')
-        td.innerText = val
+        if (i === 0) {
+          td.append(renderAnswer(...val))
+        } else {
+          td.innerText = val
+        }
         return td
       })
       tr.append(...tds)

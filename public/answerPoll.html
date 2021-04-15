@@ -7,6 +7,8 @@
   <title>Poll Mc Cartney</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='prism/prism.css'>
+  <script defer src='prism/prism.js'></script>
   <script src='scripts/answerPoll.js' type="module"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"
     integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA=="
@@ -16,8 +18,14 @@
 <body>
   <label>Your name: <input type="text" name="userName" id="userNameInput" /></label>
   <h2 id="question"></h2>
-  <form method="POST" id="answerForm">
-    <label>Answer: <input type="text" name="answer" /></label>
+  <form method="POST" id="answerForm" style="display: flex; flex-direction: column; align-items: flex-start;">
+    <label style="display: flex;">Answer: <textarea name="answer"></textarea></label>
+    <label>Highlighting: <select name="highlight">
+        <option></option>
+        <option value="html">html</option>
+        <option value="css">css</option>
+        <option value="js">js</option>
+      </select></label>
     <button>send</button>
   </form>
   <table id="answerTable">

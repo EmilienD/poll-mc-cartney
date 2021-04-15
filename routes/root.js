@@ -51,11 +51,13 @@ module.exports = async function (fastify, opts) {
             )
             if (answer) {
               answer.answer = parsedMessage.answer
+              answer.highlight = parsedMessage.highlight
             } else {
               currentRoom.answers.push({
                 userName: parsedMessage.userName,
                 answer: parsedMessage.answer,
                 userId: parsedMessage.userId,
+                highlight: parsedMessage.highlight,
               })
             }
             currentRoom.connections.forEach(emitUpdate(currentRoom))
@@ -74,6 +76,7 @@ const emitUpdate = (currentRoom) => (connection) =>
       answers: currentRoom.answers.map((a) => ({
         answer: a.answer,
         userName: a.userName,
+        highlight: a.highlight,
       })),
     })
   )
