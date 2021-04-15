@@ -1,7 +1,8 @@
 import { initUserData, createWebsocket, onUpdate } from './common.js'
-const ws = createWebsocket()
+
 initUserData()
 
+const ws = createWebsocket()
 ws.addEventListener('open', (ev) => {
   document.getElementById('answerForm').addEventListener('submit', (ev) => {
     ev.preventDefault()
@@ -11,5 +12,5 @@ ws.addEventListener('open', (ev) => {
     ws.send(JSON.stringify({ type: 'setAnswer', answer, userId, userName }))
   })
 
-  ws.addEventListener('message', onUpdate)
+  ws.addEventListener('message', onUpdate(1))
 })

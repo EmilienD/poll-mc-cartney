@@ -1,8 +1,5 @@
-const makeRoomLink = (file) => (roomName) => {
-  const { host, protocol } = window.location
+import { initPollLinksClipboard, makeRoomLink } from './common.js'
 
-  return `${protocol}//${host}/${file}?${roomName}`
-}
 const updateRoomLinks = (roomName) => {
   document
     .getElementById('answerLink')
@@ -48,12 +45,6 @@ const init = async () => {
   document
     .getElementById('suggestionButton')
     .addEventListener('click', () => suggestName())
-  Array.from(document.querySelectorAll('.pollLinks button')).forEach((button) =>
-    button.addEventListener('click', (ev) => {
-      navigator.clipboard.writeText(
-        ev.target.parentElement.querySelector('a').href
-      )
-    })
-  )
+  initPollLinksClipboard()
 }
 init()

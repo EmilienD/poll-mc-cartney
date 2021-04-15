@@ -1,15 +1,39 @@
-import { initUserData, createWebsocket, onUpdate } from './common.js'
-const ws = createWebsocket()
-initUserData()
+import {
+  initUserData,
+  createWebsocket,
+  onUpdate,
+  initPollLinksClipboard,
+  makeRoomLink,
+} from './common.js'
 
-ws.addEventListener('open', (ev) => {
-  document.getElementById('questionForm').addEventListener('submit', (ev) => {
-    ev.preventDefault()
-    const question = ev.target.querySelector('input[name=question]').value
-    const userId = localStorage.getItem('userId')
-    const userName = localStorage.getItem('userName')
-    ws.send(JSON.stringify({ type: 'setQuestion', question, userId, userName }))
+const initPollLink = () => {
+  const { search } = window.location
+  document
+    .getElementById('answerLink')
+    .setAttribute(
+      'href',
+      makeRoomLink('answerPoll.html')(search.replace('?', ''))
+    )
+  initPollLinksClipboard()
+}
+
+const initWs = () => {
+  const ws = createWebsocket()
+  ws.addEventListener('open', (ev) => {
+    document.getElementById('questionForm').addEventListener('submit', (ev) => {
+      ev.preventDefault()
+      const question = ev.target.querySelector('input[name=question]').value
+      const userId = localStorage.getItem('userId')
+      const userName = localStorage.getItem('userName')
+      ws.send(
+        JSON.stringify({ type: 'setQuestion', question, userId, userName })
+      )
+    })
+
+    ws.addEventListener('message', onUpdate(3))
   })
+}
 
-  ws.addEventListener('message', onUpdate)
-})
+initUserData()
+initPollLink()
+initWs()

@@ -22,7 +22,17 @@ export const initUserData = () => {
   )
 }
 
-export const onUpdate = (ev) => {
+export const initPollLinksClipboard = () => {
+  Array.from(document.querySelectorAll('.pollLinks button')).forEach((button) =>
+    button.addEventListener('click', (ev) => {
+      navigator.clipboard.writeText(
+        ev.target.parentElement.querySelector('a').href
+      )
+    })
+  )
+}
+
+export const onUpdate = (numberOfCols = 1) => (ev) => {
   const parsedMessage = JSON.parse(ev.data)
   if (parsedMessage.type === 'update') {
     const tableData = parsedMessage.answers.reduce((acc, val) => {
@@ -34,20 +44,27 @@ export const onUpdate = (ev) => {
     }, {})
     const rows = Object.keys(tableData).map((key) => {
       const tr = document.createElement('tr')
-      const td1 = document.createElement('td')
-      td1.innerText = key
-      const td2 = document.createElement('td')
-      td2.innerText = tableData[key].join(', ')
-      const td3 = document.createElement('td')
-      td3.innerText = tableData[key].length
-      tr.append(td1, td2, td3)
+      const data = [key, tableData[key].join(', '), tableData[key].length]
+      const tds = data.slice(0, numberOfCols).map((val) => {
+        const td = document.createElement('td')
+        td.innerText = val
+        return td
+      })
+      tr.append(...tds)
       return tr
     })
     const lastRow = document.createElement('tr')
-    lastRow.innerHTML = `<tr><td></td><td></td><td>${parsedMessage.answers.length}</td></tr>`
+    lastRow.innerHTML = `${new Array(numberOfCols - 1)
+      .fill('<td></td>')
+      .join('')}<td>${parsedMessage.answers.length}</td>`
     const answerTable = document.querySelector('#answerTable tbody')
     answerTable.innerHTML = ''
     answerTable.append(...rows, lastRow)
     document.querySelector('#question').innerText = parsedMessage.question
   }
+}
+
+export const makeRoomLink = (file) => (roomName) => {
+  const { origin } = window.location
+  return `${origin}/${file}?${roomName}`
 }
