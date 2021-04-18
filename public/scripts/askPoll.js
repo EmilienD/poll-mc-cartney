@@ -30,7 +30,22 @@ const initWs = () => {
       )
     })
 
-    ws.addEventListener('message', onUpdate(3))
+    ws.addEventListener('message', (ev) => {
+      const parsedMessage = JSON.parse(ev.data)
+
+      if (parsedMessage.type === 'update') {
+        const respondentsList = document.getElementById('respondents')
+        respondentsList.innerHTML = ''
+        respondentsList.append(
+          ...parsedMessage.respondents.map(({ userName }) => {
+            const li = document.createElement('li')
+            li.innerText = userName
+            return li
+          })
+        )
+      }
+      onUpdate(3)(ev)
+    })
   })
 }
 

@@ -24,6 +24,7 @@ module.exports = async function (fastify, opts) {
           connections: [],
           question: '',
           answers: [],
+          respondents: new Map(),
         }
       }
       const currentRoom = pollrooms[roomName]
@@ -32,6 +33,7 @@ module.exports = async function (fastify, opts) {
         currentRoom.connections = currentRoom.connections.filter(
           (c) => c !== connection
         )
+        currentRoom.respondents.delete(connection)
         if (!currentRoom.connections.length) {
           delete pollrooms[roomName]
         }
@@ -60,6 +62,10 @@ module.exports = async function (fastify, opts) {
                 highlight: parsedMessage.highlight,
               })
             }
+            currentRoom.respondents.set(connection, {
+              userId: parsedMessage.userId,
+              userName: parsedMessage.userName,
+            })
             currentRoom.connections.forEach(emitUpdate(currentRoom))
             break
         }
@@ -78,5 +84,6 @@ const emitUpdate = (currentRoom) => (connection) =>
         userName: a.userName,
         highlight: a.highlight,
       })),
+      respondents: Array.from(currentRoom.respondents.values()),
     })
   )
